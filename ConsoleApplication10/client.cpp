@@ -65,7 +65,7 @@ int main(int argc, char** argv)
     freeaddrinfo(result);
 
     if (ConnectSocket == INVALID_SOCKET) {
-        cout << "невозможно подключиться к серверу. убедитесь, что процесс сервера запущен!\n";
+        cout << "Unable to connect to the server. Make sure the server process is running!\n";
         WSACleanup();
         return 14;
     }
@@ -75,12 +75,12 @@ int main(int argc, char** argv)
     while (true)
     {
         string message;
-        cout << "Пожалуйста, введите число: ";
+        cout << "Please enter a number: ";
         getline(cin, message);
 
         iResult = send(ConnectSocket, message.c_str(), (int)message.size(), 0);
         if (iResult == SOCKET_ERROR) {
-            cout << "отправить не удалось с ошибкой: " << WSAGetLastError() << "\n";
+            cout << "Failed to send with error: " << WSAGetLastError() << "\n";
             closesocket(ConnectSocket);
             WSACleanup();
             return 15;
@@ -93,15 +93,15 @@ int main(int argc, char** argv)
 
         if (iResult > 0) {
             double serverResponse = atof(response);
-            cout << "Сервер ответил: " << serverResponse << "\n";
+            cout << "Server responded: " << serverResponse << "\n";
         }
         else if (iResult == 0) {
-            cout << "Соединение с сервером закрыто.\n";
-            break; // Завершення циклу, оскільки з'єднання закрито
+            cout << "Connection with the server is closed.\n";
+            break; 
         }
         else {
-            cout << "получение не удалось с ошибкой: " << WSAGetLastError() << "\n";
-            break; // Завершення циклу при помилці отримання даних
+            cout << "Failed to receive with error: " << WSAGetLastError() << "\n";
+            break; 
         }
     }
 
